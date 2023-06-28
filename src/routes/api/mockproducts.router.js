@@ -7,6 +7,8 @@ import {
 import {
     generateProduct
 } from '../../utils/utils.js'
+import { uploader } from '../../middlewares/multer.js'
+
 
 const router = Router()
 
@@ -22,5 +24,6 @@ router.get('/', async (req, res) => {
         data: users
     })
 })
+
 
 export default router

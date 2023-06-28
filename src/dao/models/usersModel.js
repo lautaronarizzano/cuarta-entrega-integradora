@@ -44,9 +44,10 @@ const userSchema = new mongoose.Schema({
         {
             name: {
                 type: String,
-            }
-        },
-        {
+            },
+            fieldname: {
+                type: String
+            },
             reference: {
                 type: String
             }

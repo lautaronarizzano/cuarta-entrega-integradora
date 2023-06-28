@@ -10,6 +10,7 @@ import {
 import * as dotenv from "dotenv";
 import winston from "winston";
 import config from '../config/config.js'
+import multer from 'multer'
 
 const __filename = fileURLToPath(
   import.meta.url);
@@ -183,5 +184,8 @@ export const addLogger = (req, res, next) => {
   req.logger.debug(`${req.method} en ${req.url} - ${new Date().toISOString()}`);
   next();
 };
+
+const upload = multer({ dest: `${__mainDirname}/public/img` })
+export const cdUpload = upload.fields([{ name: 'profile', maxCount: 1 }, { name: 'products', maxCount: 7 }, { name: 'documents'}])
 
 export default __mainDirname;

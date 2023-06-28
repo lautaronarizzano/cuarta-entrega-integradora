@@ -8,7 +8,7 @@ export default class Users {
 
     getAll = async () => {
         const users = await usersModel.find()
-        return users.map(user => user.toObject())
+        return users
     }
 
     getAllPaginated = async (limit, page) => {
@@ -23,7 +23,7 @@ export default class Users {
 
     getById = async (id) => {
         const user = await usersModel.findOne({ _id: id })
-        return user.toObject()
+        return user
     }
 
     getByEmail = async (email) => {

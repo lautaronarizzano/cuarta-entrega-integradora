@@ -67,3 +67,15 @@ export async function ForgotPassword(email) {
         }
     }
 }
+
+export const insertDocuments = async (uid, files) => {
+    const user = await usersRepository.getById(uid)
+        files.profile && files.profile.forEach(file => user.documents.push({name: file.originalname, fieldname: file.fieldname, reference: file.path}))
+        files.products && files.products.forEach(file => user.documents.push({name: file.originalname, fieldname: file.fieldname, reference: file.path}))
+        files.documents && files.documents.forEach(file => user.documents.push({name: file.originalname, fieldname: file.fieldname, reference: file.path}))
+        files.identification && files.identification.forEach(file => user.documents.push({name: file.originalname, fieldname: file.fieldname, reference: file.path}))
+        files.proofAdress && files.proofAdress.forEach(file => user.documents.push({name: file.originalname, fieldname: file.fieldname, reference: file.path}))
+        files.accountStatusVoucher && files.accountStatusVoucher.forEach(file => user.documents.push({name: file.originalname, fieldname: file.fieldname, reference: file.path}))
+        const result = await usersRepository.updateById(user._id, user)
+        return result
+}

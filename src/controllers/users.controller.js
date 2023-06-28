@@ -30,8 +30,12 @@ export const getUserById = async (req, res) => {
 
 export const insertDocuments = async (req, res) => {
     try {
-        
+        const uid = req.params.uid
+        const files = req.files
+        const result = await usersService.insertDocuments(uid, files)
+        res.status(200).send({status: 'success', payload: result.documents})
     } catch (error) {
+        console.log(error)
         req.logger.fatal(error)
         res.status(500).send({status:'error', error: error})
     }
@@ -76,6 +80,12 @@ export const rolHandler = async (req, res) => {
             result: `user ${user.first_name} ${user.last_name} changed rol to 'user'`
         })
     } else if (user.rol == 'user') {
+        let array = []
+        user.documents.forEach(file => file.fieldname && array.push(file.fieldname))
+        if(!array.includes('identification') || !array.includes('proofAdress') || !array.includes('accountStatusVoucher')) {
+            req.logger.error(`User haven't the needed documents`)
+            return res.status(400).send({status: 'error', error: `User haven't the needed documents`})
+        }
         await usersService.changeRolToPremium(user)
         res.status(200).send({
             status: 'success',
@@ -88,6 +98,7 @@ export const rolHandler = async (req, res) => {
         })
     }
     } catch (error) {
+        console.log(error)
         req.logger.fatal(error)
         res.status(500).send({status:'error', error: error})
     }
