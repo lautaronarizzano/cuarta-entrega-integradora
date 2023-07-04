@@ -7,9 +7,10 @@ import {
     products,
     carts,
     resetPassword,
-    changePassword
+    changePassword,
+    users,
 } from '../../controllers/views.controller.js'
-import { authenticateToken  } from '../../utils/utils.js'
+import { authenticateToken, authorizeRol  } from '../../utils/utils.js'
 
 const router = Router()
 
@@ -34,5 +35,7 @@ router.get('/change-password', publicAccess, changePassword)
 router.get('/products', authenticateToken, privateAccess, products)
 
 router.get('/carts/:cid', carts)
+
+router.get('/users', privateAccess, authenticateToken, authorizeRol(['admin']), users)
 
 export default router

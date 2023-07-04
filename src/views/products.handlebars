@@ -1,19 +1,54 @@
 <div>
-    <h1>Bienvenido {{user.name}}</h1>
+
+    <h1>Bienvenido {{user.first_name}} {{user.last_name}}</h1>
     <p>rol: {{user.rol}}</p>
+        {{#each user.carts}}
+    <a href="/carts/{{this._id}}">carrito</a>
+    {{/each}}
     <h1>products:</h1>
     {{#each products}}
     <div>
         <p>title: {{this.title}}</p>
         <p>description: {{this.description}}</p>
         <p>thumbnail: {{this.thumbnail}}</p>
-        <img src="{{this.thumbnail}}" alt="">
+        <img src={{this.thumbnail}} alt="">
         <p>price: {{this.price}}</p>
         <p>stock: {{this.stock}}</p>
         <p>category: {{this.category}}</p>
-        <button>add to cart</button>
+        
+        {{#each ../user.carts}}
+        <button id="addProductBtn" onclick="addProductToCart('{{this._id}}', '{{../this._id}}')">add to cart</button>
+        {{/each}}
     </div>
     <hr/>
     {{/each}}
+        <h2>{{user._id}}</h2>
     <a href="/api/sessions/logout"><button>Salir</button></a>
 </div>
+<script src="/js/products.js"></script>
+{{!-- <div>
+
+    <h1>Bienvenido {{user.first_name}} {{user.last_name}}</h1>
+    <p>rol: {{user.rol}}</p>
+        {{#each user.carts}}
+    <a href="/carts/{{this._id}}">carrito</a>
+    {{/each}}
+    <h1>products:</h1>
+    {{#each products}}
+    <div>
+        <p>title: {{this.title}}</p>
+        <p>description: {{this.description}}</p>
+        <p>thumbnail: {{this.thumbnail}}</p>
+        <img src={{this.thumbnail}} alt="">
+        <p>price: {{this.price}}</p>
+        <p>stock: {{this.stock}}</p>
+        <p>category: {{this.category}}</p>
+        
+        <button id="addProductBtn" onclick="addProductToCart('{{../user}}', '{{this._id}}')">add to cart</button>
+    </div>
+    <hr/>
+    {{/each}}
+        <h2>{{user._id}}</h2>
+    <a href="/api/sessions/logout"><button>Salir</button></a>
+</div>
+<script src="/js/products.js"></script> --}}

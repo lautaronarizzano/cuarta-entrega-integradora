@@ -1,0 +1,18 @@
+<div>
+    <h1>Bienvenido a la vista de Users</h1>
+    <div id="usersContainer">
+        {{#each users}}
+        <div>
+            <p>name: {{this.name}}</p>
+            <p>email: {{this.email}}</p>
+            <p>rol: {{this.rol}}</p>
+            <div>
+                <button id="changeRol" onclick="changeRolFunction('{{this._id}}')">cambiar rol</button>
+                <button id="deleteUser" onclick="deleteUserFunction('{{this.email}}')">eliminar usuario</button>
+            </div>
+            <hr>
+        </div>
+        {{/each}}
+    </div>
+</div>
+<script src="/js/users.js"></script>

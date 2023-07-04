@@ -130,6 +130,7 @@ const deleteProductInCart = async (req, res) => {
             message: 'The product with id ' + pid + ' was deleted successfully from cart ' + cid + ''
         })
     } catch (error) {
+        console.log(error)
         req.logger.fatal(error)
         res.status(500).send({
             error: 'el error es ' + error

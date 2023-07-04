@@ -1,4 +1,4 @@
-export const createMailHtml = (user, token) =>  {
+export const createMailHtml = (user, token) => {
   return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 head>
@@ -512,4 +512,28 @@ head>
       </tr>
     </table>
   </body>
-</html>`;}
+</html>`;
+}
+
+export const generateDeleteProductMail = (user, product) => {
+  return `
+  <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Notificación de eliminación del producto</title>
+</head>
+<body>
+    <h1>Notificación de eliminación del producto</h1>
+    <p>Estimado/a ${user.name},</p>
+    
+    <p>Le informamos que el producto que usted creó, ${product.title}, ha sido eliminado del sistema. Lamentamos cualquier inconveniente que esto pueda ocasionar.</p>
+    
+    <p>Si tiene alguna pregunta o desea más información sobre esta eliminación, no dude en ponerse en contacto con nuestro equipo de soporte.</p>
+    
+    <p>Atentamente,</p>
+    <p>[Tu nombre]</p>
+</body>
+</html>
+  `
+}

@@ -1,5 +1,8 @@
 import { Products } from "../dao/factory.js"
 import ProductsRepository from "../repository/products.repository.js"
+import { transporter } from "./mail.service.js"
+import { generateDeleteProductMail } from "../utils/customHtml.js"
+import config from "../config/config.js"
 
 const products = new Products()
 const productsRepository = new ProductsRepository(products)
@@ -27,4 +30,19 @@ export const update = async (pid, product) => {
 export const deleteProduct = async (pid) => {
     const result = await productsRepository.deleteProduct(pid)
     return result
+}
+
+export const deleteProductMail = async (user, product) => {
+    try {
+        console.log('entro')
+        const html = await generateDeleteProductMail(user, product)
+        const mail = await transporter.sendMail({from:`Ecommerce burguers <${config.fromEmail}>`,
+        to: user.email,
+        subject: "Product deleted",
+        html: html
+    })
+    return mail
+    } catch (error) {
+        console.log(error)
+    }
 }

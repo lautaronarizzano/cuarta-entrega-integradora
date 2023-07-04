@@ -3,6 +3,7 @@ import CustomError from '../services/errors/CustomError.js'
 import EErrors from '../services/errors/enums.js'
 import { incompleteFieldError } from '../services/errors/info.js'
 import * as productsService from '../services/products.service.js'
+import * as usersService from '../services/users.service.js'
 
 
 const getProducts = async (req, res) => {
@@ -154,6 +155,16 @@ const deleteProduct = async (req, res) => {
             req.logger.error(`Cannot delete if isn't your own product`)
             return res.status(400).send({error: `Cannot delete if isn't your own product`})
         }
+
+        if(product[0].owner != 'admin') {
+            const user = await usersService.getByEmail(product[0].owner)
+            console.log(user)
+
+            if(user.rol == 'premium') {
+                const mail = await productsService.deleteProductMail(user, product)
+            }
+        }
+        
         const result = await productsService.deleteProduct(pid)
         res.send({status: 'success', payload: result})
     } catch (error) {

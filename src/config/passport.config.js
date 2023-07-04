@@ -59,6 +59,7 @@ const initializePassport = () => {
                     products: [],
                     user: email
                 })
+
             }
 
             const result = await userModel.create(newUser)

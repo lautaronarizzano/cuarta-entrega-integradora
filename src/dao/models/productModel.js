@@ -28,18 +28,18 @@ const productSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    status:{
+    status: {
         type: Boolean,
         default: true
     },
-    category:{
+    category: {
         type: String,
     },
     owner: {
         type: String,
         required: true,
         default: 'admin'
-    }
+    },
 })
 
 productSchema.plugin(mongoosePaginate)

@@ -37,6 +37,7 @@ export const addProduct = async (cid, pid) => {
     if(!cartToUpdate) return 'errorCart'
     if(!product) return 'errorProduct'
 
+
     const existingProduct = cartToUpdate.products.find(p => p.product._id == pid)
 
     if(existingProduct) {
@@ -64,7 +65,8 @@ export const deleteProduct = async (cid, pid) => {
     }
 
     let products = cart.products
-    const index = products.findIndex(p => p.product._id == pid)
+    console.log(products[0])
+    const index = products.findIndex(p => p._id == pid)
 
     products.splice(index, 1)
     const result = await cartsRepository.update(cid, cart.products)

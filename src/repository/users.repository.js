@@ -1,6 +1,14 @@
+import UserDto from "../dao/DTOs/user.dto.js"
+
 export default class UsersRepository {
     constructor(dao) {
         this.dao = dao
+    }
+
+    getAllDto = async () => {
+        const users = await this.dao.getAll()
+        const result = users.map(user => new UserDto(user))
+        return result
     }
 
     getAll = async () => {

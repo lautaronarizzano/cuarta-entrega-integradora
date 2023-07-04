@@ -10,6 +10,10 @@ import {
 const users = new Users();
 const usersRepository = new UsersRepository(users)
 
+export const getAllDto = async () => {
+    const result = await usersRepository.getAllDto()
+    return result
+}
 export const getAll = async () => {
     const result = await usersRepository.getAll()
     return result
@@ -78,4 +82,20 @@ export const insertDocuments = async (uid, files) => {
         files.accountStatusVoucher && files.accountStatusVoucher.forEach(file => user.documents.push({name: file.originalname, fieldname: file.fieldname, reference: file.path}))
         const result = await usersRepository.updateById(user._id, user)
         return result
+}
+
+export const deleteUsers = async () => {
+    const users = await usersRepository.getAll()
+    // for(let i = 0; i < users.length; i++) {
+
+    // }
+
+    const now = new Date()
+    console.log(now)
+
+    console.log(users[0].last_connection)
+
+    const difference = now - users[0].last_connection
+    console.log(difference)
+    return 'hola'
 }

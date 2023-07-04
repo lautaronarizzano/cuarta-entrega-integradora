@@ -1,5 +1,18 @@
 import * as usersService from '../services/users.service.js'
 
+export const getUsersDto = async (req, res) => {
+    try {
+        const result = await usersService.getAllDto()
+        return res.status(200).send({
+            status: 'success',
+            payload: result
+        })
+    } catch (error) {
+        req.logger.fatal(error)
+        res.status(500).send({status:'error', error: error})
+    }
+}
+
 export const getUsers = async (req, res) => {
     try {
         const result = await usersService.getAll()
@@ -103,4 +116,14 @@ export const rolHandler = async (req, res) => {
         res.status(500).send({status:'error', error: error})
     }
 
+}
+
+export const deleteUsers = (req, res) => {
+    try {
+        const result = usersService.deleteUsers()
+        res.status(200).send({ status: 'success', payload: result })
+    } catch (error) {
+        req.logger.fatal(error)
+        res.status(500).send({status:'error', error: error})
+    }
 }

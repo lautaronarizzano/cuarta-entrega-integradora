@@ -12,13 +12,13 @@ import { authorizeRol, authenticateToken } from '../../utils/utils.js'
 
 const router = Router()
 
-router.get('/', getProducts)
-// router.get('/', authenticateToken, authorizeRol('admin'), getProducts)
+// router.get('/', getProducts)
+router.get('/', authenticateToken, authorizeRol('admin'), getProducts)
 
 router.get('/:pid', authenticateToken, authorizeRol('admin'), getProductById)
 
-router.post('/', createProduct)
-// router.post('/', authenticateToken, authorizeRol(['admin', 'premium']), createProduct)
+// router.post('/', createProduct)
+router.post('/', authenticateToken, authorizeRol(['admin', 'premium']), createProduct)
 
 router.put('/:pid', authenticateToken, authorizeRol(['admin', 'premium']), updateProduct)
 

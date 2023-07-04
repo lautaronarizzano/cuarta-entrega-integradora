@@ -1,10 +1,8 @@
-import Products from '../dao/dbManagers/products.js'
-import Carts from '../dao/dbManagers/carts.js'
 import { productModel } from '../dao/models/productModel.js'
 import UserDto from '../dao/DTOs/current.dto.js'
+import * as usersServices from '../services/users.service.js'
+import * as cartsServcies from '../services/carts.service.js'
 
-const productsManager = new Products()
-const cartsManager = new Carts()
 
 const register = async (req, res) => {
     res.render('register')
@@ -31,18 +29,18 @@ const products = async (req, res) => {
         if (query == undefined) {
             const productsPaginates = await productModel.paginate({ }, {limit: limit, page: page, sort:{ price: sort}, lean:true})
             const products = productsPaginates.docs
-            res.render('products', {products, user: userDto})
+            res.render('products', {products, user: req.user.user})
             
         } else {
             if(query == "comida" || query == "bebida" || query == "complemento") {
                 const productsPaginates = await productModel.paginate({ category: query }, {limit: limit, page: page, sort:{ price: sort}, lean:true})
                 const products = productsPaginates.docs
-            res.render('products', {products, user: userDto})
+            res.render('products', {products, user: req.user.user})
             }
             else if(query == "true" || query == "false"){
                 const productsPaginates = await productModel.paginate({ status: query }, {limit: limit, page: page, sort:{ price: sort}, lean:true})
                 const products = productsPaginates.docs
-            res.render('products', {products, user: userDto})
+            res.render('products', {products, user: req.user.user})
             }
             else{
                 req.logger.error('query is not valid')
@@ -59,20 +57,33 @@ const products = async (req, res) => {
 const carts = async (req, res) => {
     const {cid} = req.params;
     try {
-        let cartProm = await cartsManager.getCartById(cid); 
+        let cartProm = await cartsServcies.getByIdPopulated(cid); 
     const cartArray = cartProm.products; 
     const cartProducts = cartArray.map(function(productObj){
         // validarUrlIndividual(productObj.product);
         return productObj = {title:productObj.product.title, description:productObj.product.description,
             code:productObj.product.code, quantity:productObj.quantity, price:productObj.product.price, stock:productObj.product.stock,category:productObj.product.category,thumbnail:productObj.product.thumbnail}
     })
-    res.render('carts',{cartProducts})
+    console.log(cartProducts)
+    res.render('carts',{cart: cartProducts})
     } catch (error) {
+        console.log(error)
         req.logger.fatal(error)
         res.status(500).send({ error })
     }
 
 }
+
+const users = async (req, res) => {
+    try {
+        const users = usersServices.getAllDto()
+        res.render('users', {users: users})
+    } catch (error) {
+        req.logger.fatal(error)
+        res.status(500).send({ error })
+    }
+}
+
 
 export{
     register,
@@ -80,5 +91,6 @@ export{
     products,
     carts,
     resetPassword,
-    changePassword
+    changePassword,
+    users,
 }
