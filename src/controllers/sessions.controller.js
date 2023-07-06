@@ -132,8 +132,6 @@ const changePassword = async (req, res) => {
 
     const resp = await sessionManager.changePassword(result.user.email, passwordNew)
 
-    console.log(resp)
-
     if(!resp || resp == null) return res.status(401).send({ status: 'error', message: 'No puede ingresar la misma contraseña que ya tenia antes.' })
 
     return res.send({ message: 'success' })

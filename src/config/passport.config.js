@@ -8,15 +8,9 @@ import {
 } from '../utils/utils.js';
 import UserDto from '../dao/DTOs/current.dto.js'
 import {
-    createCart
-} from '../controllers/carts.controller.js'
-import {
     cartsModel
 } from '../dao/models/cartsModel.js'
 import config from './config.js';
-import CustomError from '../services/errors/CustomError.js'
-import { incompleteRegisterFields } from '../services/errors/info.js'
-import EErrors from '../services/errors/enums.js'
 
 const LocalStrategy = local.Strategy
 
@@ -44,16 +38,12 @@ const initializePassport = () => {
                 return done(null, false)
             }
 
-            // const cart = await cartsModel.create({products: [], user: user})
-
-
             const newUser = {
                 first_name,
                 last_name,
                 email,
                 age,
                 password: createHash(password),
-                // rol: email.includes('admin') && password.includes('admin') ? 'admin' : 'user',
                 rol: rol,
                 carts: await cartsModel.create({
                     products: [],
@@ -70,24 +60,6 @@ const initializePassport = () => {
             return done(`Error al registrar usuario ${error}`)
         }
     }))
-
-    // passport.use('login', new LocalStrategy({
-    //     usernameField: 'email'
-    // }, async (username, password, done) => {
-    //     try {
-    //         const user = await userModel.findOne({ email: username });
-
-    //         if (!user) {
-    //             return done(null, false)
-    //         }
-
-    //         if (!isValidPassword(user, password)) return done(null, false)
-
-    //         return done(null, user)
-    //     } catch (error) {
-    //         return done(`Error al loguear usuario ${error}`);
-    //     }
-    // }));
 
     passport.use('github', new GithubStrategy({
         clientID: 'Iv1.ba34f0efaca32293',

@@ -56,7 +56,6 @@ export async function ForgotPassword(email) {
 
     if (userExist) {
         let user = userExist;
-        console.log(user);
         try {
             const email = {
                 to: user.email,
@@ -65,7 +64,6 @@ export async function ForgotPassword(email) {
             }
 
             await sendEmail(email)
-            console.log(email)
         } catch (error) {
             console.log(error)
         }
@@ -91,11 +89,8 @@ export const deleteUsers = async () => {
     // }
 
     const now = new Date()
-    console.log(now)
 
-    console.log(users[0].last_connection)
 
     const difference = now - users[0].last_connection
-    console.log(difference)
     return 'hola'
 }

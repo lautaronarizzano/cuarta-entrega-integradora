@@ -6,8 +6,17 @@
         <img src={{this.thumbnail}} alt="">
         <p>price: {{this.price}}</p>
         <p>quantity: {{this.quantity}}</p>
+        <button onclick="deleteProduct('{{this._id}}')">Eliminar</button>
         <hr>
         {{/each}}
     </div>
+    <div>
+        <div>
+        <h2>Total Price:</h2>
+        <p id="totalPrice"></p>
+        </div>
+        <button id="backBtn">Back</button>
+        <button id="buyCart">Comprar</button>
+    </div>
 </div>
-<script src="/js/cart.js"></script>
+<script src="/js/carts.js"></script>

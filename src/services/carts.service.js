@@ -65,8 +65,7 @@ export const deleteProduct = async (cid, pid) => {
     }
 
     let products = cart.products
-    console.log(products[0])
-    const index = products.findIndex(p => p._id == pid)
+    const index = products.findIndex(p => p.product._id == pid)
 
     products.splice(index, 1)
     const result = await cartsRepository.update(cid, cart.products)
@@ -123,22 +122,18 @@ export const purchaseCart = async (cid) => {
             productStock.product.stock -= productsStock[j].quantity;
             productsToUpdate.push(productStock)
         }
-        // console.log( await deleteProduct(cid, productStock.product._id))
         await deleteProduct(cid, productStock.product._id)
     }
 
     if (!productsToUpdate || productsToUpdate == null || productsToUpdate == undefined || productsToUpdate.length == 0) return {error: 'errorStock', failedProducts}
 
     //Actualizar el stock de los products
-    console.log(productsToUpdate[0])
     const updateResults = await Promise.all(productsToUpdate.map(async productToUpdate => await productsRepository.updateProduct(productToUpdate.product._id, productToUpdate.product)))
     if (updateResults.some(result => !result)) return 'errorUpdatingProduct'
 
     //Generar el stock de compra
 
     const tickets = await ticketModel.find()
-
-    const date = new Date
 
     const totalprice = products => {
         let total = 0;

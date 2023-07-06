@@ -12,8 +12,8 @@ const getProducts = async (req, res) => {
 
         if (query == undefined) {
             const productsPaginates = await productModel.paginate({ }, {limit: limit, page: page, sort:{ price: sort}}, (err, result) => {
-                    const nextPage = result.hasNextPage && `localhost:8080/api/products?limit=${limit}&page=${result.nextPage}`
-                    const prevPage = result.hasPrevPage && `localhost:8080/api/products?limit=${limit}&page=${result.prevPage}`
+                    const nextPage = result.hasNextPage && `/api/products?limit=${limit}&page=${result.nextPage}`
+                    const prevPage = result.hasPrevPage && `/api/products?limit=${limit}&page=${result.prevPage}`
                 const response = {
                     ...result,
                     nextLink: nextPage,
@@ -25,8 +25,8 @@ const getProducts = async (req, res) => {
         } else {
             if(query == "comida" || query == "bebida" || query == "complemento") {
                 const productsPaginates = await productModel.paginate({ category: query }, {limit: limit, page: page, sort:{ price: sort}}, (err, result) => {
-                    const nextPage = result.hasNextPage ? `localhost:8080/api/products?query=${query}&limit=${limit}&page=${result.nextPage}`: null
-                    const prevPage = result.hasPrevPage ? `localhost:8080/api/products?query=${query}limit=${limit}&page=${result.prevPage}`: null
+                    const nextPage = result.hasNextPage ? `/api/products?query=${query}&limit=${limit}&page=${result.nextPage}`: null
+                    const prevPage = result.hasPrevPage ? `/api/products?query=${query}limit=${limit}&page=${result.prevPage}`: null
                 const response = {
                     ...result,
                     nextLink: nextPage,
@@ -37,8 +37,8 @@ const getProducts = async (req, res) => {
             }
             else if(query == "true" || query == "false"){
                 const productsPaginates = await productModel.paginate({ status: query }, {limit: limit, page: page, sort:{ price: sort}}, (err, result) => {
-                    const nextPage = result.hasNextPage ? `localhost:8080/api/products?query=${query}&limit=${limit}&page=${result.nextPage}`: null
-                    const prevPage = result.hasPrevPage ? `localhost:8080/api/products?query=${query}limit=${limit}&page=${result.prevPage}`: null
+                    const nextPage = result.hasNextPage ? `/api/products?query=${query}&limit=${limit}&page=${result.nextPage}`: null
+                    const prevPage = result.hasPrevPage ? `/api/products?query=${query}limit=${limit}&page=${result.prevPage}`: null
                 const response = {
                     ...result,
                     nextLink: nextPage,
@@ -158,7 +158,6 @@ const deleteProduct = async (req, res) => {
 
         if(product[0].owner != 'admin') {
             const user = await usersService.getByEmail(product[0].owner)
-            console.log(user)
 
             if(user.rol == 'premium') {
                 const mail = await productsService.deleteProductMail(user, product)

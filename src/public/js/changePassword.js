@@ -14,7 +14,6 @@ const changePassword = async (obj, token) => {
         }
     })
     const resp = await res.json()
-    console.log(resp)
     return resp
 }
 
@@ -32,7 +31,6 @@ form.addEventListener('submit', async e => {
     if(obj.passwordNew === obj.passwordRepeat) {
 
         const resp = await changePassword(obj, token)
-        console.log(resp)
         if(resp.status == 'error') {
             Swal.fire({
                 timer:3000,

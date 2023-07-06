@@ -46,8 +46,6 @@ export default class CartManager {
             console.error('Not found')
             return
         } 
-            console.log('El producto buscado es:')
-            console.log(cartFind)
             return cartFind
     }
 

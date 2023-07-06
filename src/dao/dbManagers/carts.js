@@ -1,6 +1,3 @@
-import CustomError from "../../services/errors/CustomError.js";
-import EErrors from "../../services/errors/enums.js";
-import { productNotFound } from "../../services/errors/info.js";
 import {cartsModel} from "../models/cartsModel.js";
 import { ticketModel } from '../models/ticketModel.js'
 
@@ -46,19 +43,6 @@ export default class Carts {
     delete = async(cid) => {
         const result = await cartsModel.deleteOne({_id: cid})
         return result
-    }
-
-    updateQuantity = async(cid, pid, quantity) => {
-        const cartToUpdate = await this.getCartById(cid)
-
-        const find = cartToUpdate.products.find(p => p.product._id == pid)
-
-        find.quantity = quantity.quantity
-
-        const result = cartsModel.updateOne({_id: cid }, cartToUpdate)
-
-        return result
-
     }
 
     updateCart = async(cid, newCart) => {

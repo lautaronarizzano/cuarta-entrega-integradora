@@ -5,7 +5,7 @@ export default class Message{
         console.log('working messages with DB on mongoDB')
     }
 
-    getMessages = async () => {
+    getAll = async () => {
         const messages = await messageModel.find()
         return messages
     }

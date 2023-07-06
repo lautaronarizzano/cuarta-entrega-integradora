@@ -9,6 +9,8 @@ import {
     resetPassword,
     changePassword,
     users,
+    payment,
+    ticket
 } from '../../controllers/views.controller.js'
 import { authenticateToken, authorizeRol  } from '../../utils/utils.js'
 
@@ -34,8 +36,12 @@ router.get('/change-password', publicAccess, changePassword)
 
 router.get('/products', authenticateToken, privateAccess, products)
 
-router.get('/carts/:cid', carts)
+router.get('/carts/:cid', privateAccess, carts)
 
 router.get('/users', privateAccess, authenticateToken, authorizeRol(['admin']), users)
+
+router.get('/payment/:cid', privateAccess, payment)
+
+router.get('/ticket/:cid', privateAccess, ticket)
 
 export default router

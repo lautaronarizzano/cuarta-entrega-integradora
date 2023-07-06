@@ -1,5 +1,4 @@
 import mongoose from 'mongoose'
-import aggregatePaginate from 'mongoose-aggregate-paginate-v2'
 
 const userCollection = 'users'
 
@@ -58,7 +57,6 @@ const userSchema = new mongoose.Schema({
     }
 })
 
-// studentsSchema.plugin(aggregatePaginate)
 
 userSchema.pre('find', function() {
     this.populate('carts.cart')

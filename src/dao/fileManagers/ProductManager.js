@@ -86,8 +86,6 @@ export default class ProductManager {
                 return
             } else {
                 const find = products.find(e => e._id === idProduct)
-                console.log('El producto buscado es:')
-                console.log(find)
                 return find
             }
         }
@@ -96,7 +94,7 @@ export default class ProductManager {
             const products = await this.getAll()
             let productIndex = products.findIndex(e => e._id === idProduct)
             if (productIndex === -1) {
-                console.log('Produdcto no encontrado')
+                console.log('Producto no encontrado')
                 return
             }
             let product = products[productIndex]

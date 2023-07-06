@@ -3,8 +3,11 @@ import { authorizeRol, authenticateToken } from '../../utils/utils.js'
 
 const router = Router()
 
-router.get('/', authenticateToken, authorizeRol('user'), (req, res) => {
+router.get('/', (req, res) => {
     res.render('chat2')
 })
+// router.get('/', authenticateToken, authorizeRol('user'), (req, res) => {
+//     res.render('index')
+// })
 
 export default router;

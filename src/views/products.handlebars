@@ -2,53 +2,47 @@
 
     <h1>Bienvenido {{user.first_name}} {{user.last_name}}</h1>
     <p>rol: {{user.rol}}</p>
-        {{#each user.carts}}
+    {{#each user.carts}}
     <a href="/carts/{{this._id}}">carrito</a>
     {{/each}}
     <h1>products:</h1>
-    {{#each products}}
+    <div style="display: flex;">
+
+    <div>
+    {{#each productsPaginates.docs}}
     <div>
         <p>title: {{this.title}}</p>
         <p>description: {{this.description}}</p>
-        <p>thumbnail: {{this.thumbnail}}</p>
         <img src={{this.thumbnail}} alt="">
         <p>price: {{this.price}}</p>
         <p>stock: {{this.stock}}</p>
         <p>category: {{this.category}}</p>
-        
+
         {{#each ../user.carts}}
         <button id="addProductBtn" onclick="addProductToCart('{{this._id}}', '{{../this._id}}')">add to cart</button>
         {{/each}}
     </div>
-    <hr/>
+    <hr />
     {{/each}}
-        <h2>{{user._id}}</h2>
+    </div>
+    <div>
+        <h3>Filter</h3>
+        <button><a href="/products">Sin filtro</a></button>
+        <button><a href="/products?query=comida">Comida</a></button>
+        <button><a href="/products?query=bebida">Bebida</a></button>
+        <button><a href="/products?query=complemento">Complemento</a></button>
+    </div>
+    </div>
+    </div>
+    <div>
+        {{#if productsPaginates.hasPrevPage}}
+        <button><a id="prevPageBtn" href="/products?page={{productsPaginates.prevPage}}&query={{query}}">PrevPage</a></button>
+        {{/if}}
+        {{#if productsPaginates.hasNextPage}}
+        <button><a id="nextPageBtn" href="/products?page={{productsPaginates.nextPage}}&query={{query}}">NextPage</a></button>
+        {{/if}}
+        <p id="pageQuantity">pagina: {{productsPaginates.page}}</p>
+    </div>
     <a href="/api/sessions/logout"><button>Salir</button></a>
 </div>
 <script src="/js/products.js"></script>
-{{!-- <div>
-
-    <h1>Bienvenido {{user.first_name}} {{user.last_name}}</h1>
-    <p>rol: {{user.rol}}</p>
-        {{#each user.carts}}
-    <a href="/carts/{{this._id}}">carrito</a>
-    {{/each}}
-    <h1>products:</h1>
-    {{#each products}}
-    <div>
-        <p>title: {{this.title}}</p>
-        <p>description: {{this.description}}</p>
-        <p>thumbnail: {{this.thumbnail}}</p>
-        <img src={{this.thumbnail}} alt="">
-        <p>price: {{this.price}}</p>
-        <p>stock: {{this.stock}}</p>
-        <p>category: {{this.category}}</p>
-        
-        <button id="addProductBtn" onclick="addProductToCart('{{../user}}', '{{this._id}}')">add to cart</button>
-    </div>
-    <hr/>
-    {{/each}}
-        <h2>{{user._id}}</h2>
-    <a href="/api/sessions/logout"><button>Salir</button></a>
-</div>
-<script src="/js/products.js"></script> --}}
