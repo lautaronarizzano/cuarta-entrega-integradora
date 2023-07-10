@@ -1,7 +1,11 @@
-import { Server } from 'socket.io'
+import {
+    Server
+} from 'socket.io'
 import express from 'express'
 import cors from 'cors'
-import __mainDirname, { addLogger } from './utils/utils.js'
+import __mainDirname, {
+    addLogger
+} from './utils/utils.js'
 import errorHandler from './middlewares/errors/errors.js'
 import config from './config/config.js'
 import session from 'express-session'
@@ -15,17 +19,22 @@ import loggerRouter from './routes/api/logger.router.js'
 import usersRouter from './routes/api/users.router.js'
 import paymentRouter from './routes/api/payment.router.js'
 import handlebars from 'express-handlebars'
-import Chats from './dao/dbManagers/chat.js'
-import messageModel from './dao/models/messageModel.js'
+// import Chats from './dao/dbManagers/chat.js'
+// import messageModel from './dao/models/messageModel.js'
+// import Message from './dao/models/messageModel.js'
 import MongoStore from 'connect-mongo'
 import passport from 'passport'
 import initializePassport from './config/passport.config.js'
 import cookieParser from 'cookie-parser'
 // import messagesManager from './controllers/chat.controller.js'
-import {getAll, addMessage} from './controllers/chat.controller.js'
+// import {
+//     getAll,
+//     addMessage
+// } from './controllers/chat.controller.js'
 import CustomError from './services/errors/CustomError.js'
 import swaggerJsdoc from 'swagger-jsdoc'
 import swaggerUiExpress from 'swagger-ui-express'
+import messageManager from './controllers/chat.controller.js'
 
 
 // const messagesManager = new Chats()
@@ -49,7 +58,9 @@ const specs = swaggerJsdoc(swaggerOptions)
 app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
 
 app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({
+    extended: true
+}))
 app.use(express.static(`${__mainDirname}/public`))
 
 app.use(cookieParser());
@@ -57,7 +68,9 @@ app.use(cookieParser());
 app.use(session({
     store: MongoStore.create({
         mongoUrl: config.mongoUrl,
-        mongoOptions: { useNewUrlParser: true },
+        mongoOptions: {
+            useNewUrlParser: true
+        },
         ttl: 3600
     }),
     secret: 'secretCoder',
@@ -93,44 +106,19 @@ app.use('/api/payments', paymentRouter)
 
 const server = app.listen(Number(config.port), () => console.log(`Server running on port ${config.port}`))
 
+const messages = []
+let msgmanager = new messageManager()
 const io = new Server(server)
+io.on('connection',  (socket) => {
 
-// const messages = await chatManager.getMessages()
-
-// io.on('
-
-
-io.on("connection", (socket) => {
-    console.log(`Nuevo cliente conectado. ID: ${socket.id}`)
-
-    socket.on("message", async ({ user, message }) => {
-        await addMessage(user, message)
-        const messages = await getAll()
-
-        io.emit("messageLogs", messages)
+    socket.on("message", (data) => {
+        messages.push(data);
+        msgmanager.post(data);
+        io.emit("message_logs",messages)
     })
-
-    socket.on("authenticated", async (user) => {
-        const messages = await getAll()
-        socket.emit("messageLogs", messages)
-        socket.broadcast.emit("newUserConnected", user)
+    
+    socket.on("authenticated", user => {
+        io.emit("message_logs",messages);
+        io.emit("new_user_connected",user);
     })
 })
-// io.on("connection", (socket) => {
-//     console.log(`Nuevo cliente conectado. ID: ${socket.id}`)
-
-//     socket.on("message", async ({ user, message }) => {
-//         await messagesManager.addMessage({user, message})
-//         const messages = await messagesManager.getAll()
-
-//         io.emit("messageLogs", messages)
-//     })
-
-//     socket.on("authenticated", async (user) => {
-//         const messages = await messagesManager.getAll()
-//         socket.emit("messageLogs", messages)
-//         socket.broadcast.emit("newUserConnected", user)
-//     })
-// })
-
-export { io }

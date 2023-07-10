@@ -53,7 +53,7 @@ const login = async (req, res) => {
         const user = await userModel.findOne({
             email: email
         })
-        user.last_connection = new Date()
+        user.last_connection = Date.now()
 
         if (!user) {
             throw CustomError.createError({
@@ -139,7 +139,7 @@ const changePassword = async (req, res) => {
 
 const logout = async (req, res) => {
     const user = req.user
-    user.user.last_connection = new Date()
+    user.user.last_connection = Date.now()
     await usersService.updateById(user.user._id, user.user)
     res.clearCookie('cookieToken')
     res.redirect('/login')

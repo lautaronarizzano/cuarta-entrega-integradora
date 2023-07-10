@@ -1,6 +1,18 @@
 <div>
     <div id="ticket">
-
+        {{#if this.error}}
+        <div> 
+            <h1>Error procesando al compra</h1>
+            <p>probablemente los productos no tengan suficiente stock del deseado.  </p>
+        </div>
+        {{/if}}
+    <h2>Thanks you for your purchase</h2>
+        <div>
+            <h3>Ticket</h3>
+            <p>amount: {{this.amount}}</p>
+            <p>purchase datetime: {{this.purchase_datetime}}</p>
+            <p>id of purchase: {{this._id}}</p>
+        </div>
     </div>
 
     <button id="backBtn">Back to catalog</button>

@@ -72,7 +72,7 @@ const carts = async (req, res) => {
 
 const users = async (req, res) => {
     try {
-        const users = usersServices.getAllDto()
+        const users = await usersServices.getAllDto()
         res.render('users', {users: users})
     } catch (error) {
         req.logger.fatal(error)
@@ -90,8 +90,11 @@ const payment = async (req, res) => {
 }
 
 const ticket = async (req, res) => {
+    const cid = req.params.cid
     try {
-        res.render('ticket')
+        const ticket = await cartsServcies.purchaseCart(cid)
+        console.log(ticket)
+        res.render('ticket', ticket)
     } catch (error) {
         req.logger.fatal(error)
         res.status(500).send({ error })

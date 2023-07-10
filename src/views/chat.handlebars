@@ -1,4 +1,4 @@
-<h1>Bienvenidos al chat</h1>
+{{!-- {{! <h1>Bienvenidos al chat</h1>
 <div>
     <input type="text" id="chatBox">
 </div>
@@ -7,4 +7,83 @@
 </div>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="/socket.io/socket.io.js"></script>
-<script src="/js/index.js"></script>
+<script src="/js/index.js"></script> }}
+
+<body>
+    <form id="username-form">
+        <input type="text" id="username-input" autocomplete="off" placeholder="Ingresa tu nombre de usuario" />
+        <button type="submit">Iniciar sesión</button>
+    </form>
+    <div id="messages"></div>
+    <form id="message-form">
+        <input type="text" id="message-input" autocomplete="off" />
+        <button type="submit">Enviar</button>
+    </form>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        const messageForm = document.getElementById('message-form');
+        const messageInput = document.getElementById('message-input');
+        const messagesDiv = document.getElementById('messages');
+
+        const usernameForm = document.getElementById('username-form');
+        const usernameInput = document.getElementById('username-input');
+        let username = '';
+
+        fetch('/messages')
+    .then((response) => response.json())
+    .then((messages) => {
+    messages.forEach((message) => {
+        const { username, message: text } = message;
+        const messageElement = document.createElement('div');
+        messageElement.innerHTML = `<strong>${username}</strong>: ${text}`;
+        messagesDiv.appendChild(messageElement);
+    });
+    })
+    .catch((error) => {
+    console.error('Error al obtener los mensajes:', error);
+    });
+
+        usernameForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            username = usernameInput.value;
+            usernameForm.style.display = 'none';
+            messageForm.style.display = 'block';
+        });
+
+        messageForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const message = messageInput.value;
+            socket.emit('chat message', { username, message });
+            messageInput.value = '';
+        });
+
+        socket.on('chat message', (data) => {
+            const { username, message } = data;
+            const messageElement = document.createElement('div');
+            messageElement.innerHTML = `<strong>${username}</strong>: ${message}`;
+            messagesDiv.appendChild(messageElement);
+        });
+
+    </script>
+</body> --}}
+
+<div >
+    <h1 style="margin-left: 30px;">Bienvenidos al Chat</h1>
+    <p style="margin-left: 30px;">Sean respetuosos unos con otros. Por su seguridad, todos los mensajes intercambiados en el chat estan siendo guardados en nuestros servidores.</p>
+    <div class="ChatDiv">
+        <div class="ChatBox">
+            <p style="margin-left: 10px;" id="messagelogs"></p>
+        </div>
+        <div class="ChatButtonDiv">
+            <input class="ChatInput" type="text" id="chatbox">
+            <input class="ChatButton" type="button" id="chatbutton" value="Enviar" onclick="enviar()">
+        </div>
+    </div>
+    {{!-- <div style="margin-top: 10vh; height: 100%"></div> --}}
+</div>
+<script src="/socket.io/socket.io.js" ></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11" ></script>
+<script src="/js/chat.js" ></script>

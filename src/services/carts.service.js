@@ -96,7 +96,9 @@ export const updateCart = async (cid, products) => {
 }
 
 export const purchaseCart = async (cid) => {
-    const cart = await cartsRepository.getById(cid)
+    try {
+        
+        const cart = await cartsRepository.getById(cid)
 
     const productsInCart = cart.products
         const productsToUpdate = []
@@ -125,7 +127,15 @@ export const purchaseCart = async (cid) => {
         await deleteProduct(cid, productStock.product._id)
     }
 
-    if (!productsToUpdate || productsToUpdate == null || productsToUpdate == undefined || productsToUpdate.length == 0) return {error: 'errorStock', failedProducts}
+    // const failedProductsRef = failedProducts.map(async  p => await productsRepository.getProductById(p))
+    const failedProductsRef = []
+    for(let p of failedProducts) {
+        const product = await productsRepository.getProductById(p)
+        failedProductsRef.push(product)
+    }
+
+
+    if (!productsToUpdate || productsToUpdate == null || productsToUpdate == undefined || productsToUpdate.length == 0) return {error: 'errorStock', failedProducts: failedProductsRef[0]}
 
     //Actualizar el stock de los products
     const updateResults = await Promise.all(productsToUpdate.map(async productToUpdate => await productsRepository.updateProduct(productToUpdate.product._id, productToUpdate.product)))
@@ -156,5 +166,7 @@ export const purchaseCart = async (cid) => {
 
     return ticket
 
+    } catch (error) {
+        console.log(error)
 }
-
+}

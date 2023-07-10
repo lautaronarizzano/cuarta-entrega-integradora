@@ -1,10 +1,10 @@
 import { Users } from "../dao/factory.js";
 import UsersRepository from "../repository/users.repository.js";
-import {transporter as sendEmail} from "./mail.service.js";
+import {transporter as sendEmail, transporter} from "./mail.service.js";
 import __mainDirname, {
 } from "../utils/utils.js"
 import {
-    createMailHtml
+    createMailHtml, deleteUsersHtml
 } from "../utils/customHtml.js";
 
 const users = new Users();
@@ -83,14 +83,24 @@ export const insertDocuments = async (uid, files) => {
 }
 
 export const deleteUsers = async () => {
-    const users = await usersRepository.getAll()
-    // for(let i = 0; i < users.length; i++) {
+    try {
+        const users = await usersRepository.getAll()
+    const usersFilter = users.map(user => ({"email": user.email, "last_connection": user.last_connection ?? 0}))
+    const limitDays = Date.now() - 172800000
+    const userDelete = usersFilter.filter(user => user.last_connection < limitDays)
+    console.log(usersFilter[0].last_connection > limitDays)
 
-    // }
-
-    const now = new Date()
-
-
-    const difference = now - users[0].last_connection
-    return 'hola'
+    const result = userDelete.forEach( async u => {
+        await usersRepository.delete(u.email)
+        const email = {
+            to: u.email,
+            subject: "Account deleted",
+            html: deleteUsersHtml()
+        }
+        await transporter.sendMail(email)
+    })
+    return result
+    } catch (error) {
+        console.log(error)
+    }
 }

@@ -537,3 +537,12 @@ export const generateDeleteProductMail = (user, product) => {
 </html>
   `
 }
+
+export const deleteUsersHtml = () => {
+  return `
+  <div>
+    <h1>Cuenta eliminada por inactividad</h1>
+    <p>Su cuenta ha sido eliminada por estar inactiva mas de 2 dias. Si desea puede volver a crearse otra</p>
+  </div>
+  `
+}
