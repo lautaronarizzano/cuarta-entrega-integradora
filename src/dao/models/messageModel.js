@@ -40,7 +40,7 @@ import mongoose from "mongoose";
 
 const messageCollection = 'messages';
 const messageSchema = mongoose.Schema({
-    user:String, 
+    username:String, 
     message: String
 })
 

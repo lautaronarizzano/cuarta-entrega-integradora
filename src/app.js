@@ -19,24 +19,16 @@ import loggerRouter from './routes/api/logger.router.js'
 import usersRouter from './routes/api/users.router.js'
 import paymentRouter from './routes/api/payment.router.js'
 import handlebars from 'express-handlebars'
-// import Chats from './dao/dbManagers/chat.js'
-// import messageModel from './dao/models/messageModel.js'
-// import Message from './dao/models/messageModel.js'
 import MongoStore from 'connect-mongo'
 import passport from 'passport'
 import initializePassport from './config/passport.config.js'
 import cookieParser from 'cookie-parser'
-import CustomError from './services/errors/CustomError.js'
 import swaggerJsdoc from 'swagger-jsdoc'
 import swaggerUiExpress from 'swagger-ui-express'
 import messageManager from './controllers/chat.controller.js'
 
-
-// const messagesManager = new Chats()
-
 const app = express()
 
-const error = new CustomError()
 
 const swaggerOptions = {
     definition: {
@@ -102,18 +94,18 @@ app.use('/api/payments', paymentRouter)
 const server = app.listen(Number(process.env.PORT), () => console.log(`Server running on port ${process.env.PORT}`))
 
 const messages = []
-let msgmanager = new messageManager()
-const io = new Server(server)
-io.on('connection',  (socket) => {
 
-    socket.on("message", (data) => {
+const io = new Server(server);
+
+io.on('connection', socket => {
+    console.log('cliente conectado')
+    socket.on('message', data => {
         messages.push(data);
-        msgmanager.post(data);
-        io.emit("message_logs",messages)
+        io.emit('messageLogs', messages);
     })
-    
-    socket.on("authenticated", user => {
-        io.emit("message_logs",messages);
-        io.emit("new_user_connected",user);
+
+    socket.on('authenticated', data => {
+        socket.emit('messageLogs', messages);
+        socket.broadcast.emit('newUserConnected', data)
     })
 })

@@ -30,7 +30,7 @@ router.put('/:cid', updateCart);
 
 router.delete('/:cid/products/:pid', deleteProductInCart);
 
-router.delete('/:cid', deleteCart)
+router.delete('/:cid', authenticateToken, authorizeRol(['admin']), deleteCart)
 
 router.post('/:cid/purchase', authenticateToken ,purchaseCart)
 

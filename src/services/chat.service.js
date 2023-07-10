@@ -27,7 +27,7 @@ export const getLastService = (quantity) => {
 
 export const postService = (data) => {
     let newMessage = {
-        user: data.user,
+        username: data.username,
         message: data.message
     };
     persMode.create(newMessage);
