@@ -5,9 +5,9 @@ export let Users
 export let Products
 export let Carts
 
-const persistence = config.persistence
+const persistence = process.env.PERSISTENCE
 
-const mongoUrl = config.mongoUrl
+const mongoUrl = process.env.MONGO_URL
 
 switch (persistence) {
     case "MONGO":

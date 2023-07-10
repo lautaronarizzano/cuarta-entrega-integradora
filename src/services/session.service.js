@@ -10,7 +10,7 @@ export const sendEmailResetPassword = async (email, token) => {
     try {
         const user = await usersManager.getByEmail(email)
         const html = createMailHtml(user, token)
-        await transporter.sendMail({from:`Ecommerce burguers <${config.fromEmail}>`,
+        await transporter.sendMail({from:`Ecommerce burguers <${process.env.APP_FROM_EMAIL}>`,
         to: email,
         subject: "Reset Password",
         html: html

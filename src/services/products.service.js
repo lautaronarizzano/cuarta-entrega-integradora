@@ -35,7 +35,7 @@ export const deleteProduct = async (pid) => {
 export const deleteProductMail = async (user, product) => {
     try {
         const html = await generateDeleteProductMail(user, product)
-        const mail = await transporter.sendMail({from:`Ecommerce burguers <${config.fromEmail}>`,
+        const mail = await transporter.sendMail({from:`Ecommerce burguers <${process.env.APP_FROM_EMAIL}>`,
         to: user.email,
         subject: "Product deleted",
         html: html

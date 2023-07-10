@@ -26,11 +26,6 @@ import MongoStore from 'connect-mongo'
 import passport from 'passport'
 import initializePassport from './config/passport.config.js'
 import cookieParser from 'cookie-parser'
-// import messagesManager from './controllers/chat.controller.js'
-// import {
-//     getAll,
-//     addMessage
-// } from './controllers/chat.controller.js'
 import CustomError from './services/errors/CustomError.js'
 import swaggerJsdoc from 'swagger-jsdoc'
 import swaggerUiExpress from 'swagger-ui-express'
@@ -67,7 +62,7 @@ app.use(cookieParser());
 
 app.use(session({
     store: MongoStore.create({
-        mongoUrl: config.mongoUrl,
+        mongoUrl: process.env.MONGO_URL,
         mongoOptions: {
             useNewUrlParser: true
         },
@@ -104,7 +99,7 @@ app.use('/loggerTest', loggerRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/payments', paymentRouter)
 
-const server = app.listen(Number(config.port), () => console.log(`Server running on port ${config.port}`))
+const server = app.listen(Number(process.env.PORT), () => console.log(`Server running on port ${process.env.PORT}`))
 
 const messages = []
 let msgmanager = new messageManager()

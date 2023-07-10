@@ -28,7 +28,7 @@ export const generateToken = (user) => {
   const token = jwt.sign({
       user,
     },
-    config.privateKey, {
+    process.env.PRIVATE_KEY, {
       expiresIn: "1h",
     }
   );
@@ -36,7 +36,7 @@ export const generateToken = (user) => {
 };
 
 export const decodeToken = (token) => {
-  const result = jwt.verify(token, config.privateKey, function (err, decoded) {
+  const result = jwt.verify(token, process.env.PRIVATE_KEY, function (err, decoded) {
 
     if(err) {
       return null
@@ -83,7 +83,7 @@ export const authenticateToken = (req, res, next) => {
   if (token == null) {
     return res.status(401).send("unauthorized");
   }
-  jwt.verify(token, config.privateKey, (err, user) => {
+  jwt.verify(token, process.env.PRIVATE_KEY, (err, user) => {
     if (err) {
       return res.status(403).send("forbbiden");
     }
@@ -119,7 +119,7 @@ export const generateProduct = () => {
 
 
 dotenv.config();
-const ENVIROMENT = config.enviroment;
+const ENVIROMENT = process.env.NODE_ENV;
 
 const customLevelOptions = {
   levels: {

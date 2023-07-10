@@ -1,6 +1,6 @@
 import config from '../config/config.js';
 let persMode;
-const persistance = config.persistence;
+const persistance = process.env.PERSISTENCE;
 switch (persistance) {
     case "MONGO":
         const {
