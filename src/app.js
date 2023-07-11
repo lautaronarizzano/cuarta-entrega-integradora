@@ -17,7 +17,6 @@ import sessionsRouter from './routes/api/sessions.router.js'
 import mockProductsRouter from './routes/api/mockproducts.router.js'
 import loggerRouter from './routes/api/logger.router.js'
 import usersRouter from './routes/api/users.router.js'
-import paymentRouter from './routes/api/payment.router.js'
 import handlebars from 'express-handlebars'
 import MongoStore from 'connect-mongo'
 import passport from 'passport'
@@ -25,7 +24,6 @@ import initializePassport from './config/passport.config.js'
 import cookieParser from 'cookie-parser'
 import swaggerJsdoc from 'swagger-jsdoc'
 import swaggerUiExpress from 'swagger-ui-express'
-import messageManager from './controllers/chat.controller.js'
 
 const app = express()
 
@@ -89,7 +87,6 @@ app.use('/api/auth', sessionsRouter)
 app.use('/mockingproducts', mockProductsRouter)
 app.use('/loggerTest', loggerRouter)
 app.use('/api/users', usersRouter)
-app.use('/api/payments', paymentRouter)
 
 const server = app.listen(Number(process.env.PORT), () => console.log(`Server running on port ${process.env.PORT}`))
 

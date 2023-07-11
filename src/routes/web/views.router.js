@@ -26,6 +26,10 @@ const privateAccess = (req, res, next) => {
     next();
 }
 
+router.get('/', publicAccess, (req, res) => {
+    res.send('hola')
+})
+
 router.get('/register', publicAccess, register)
 
 router.get('/login', publicAccess, login)

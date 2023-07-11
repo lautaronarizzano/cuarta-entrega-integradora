@@ -1,11 +1,5 @@
 const socket = io();
 
-// Swal.fire({
-//     title: 'Titulo de purueba',
-//     text: 'Texto de prueba',
-//     icon: 'success'
-// });
-
 let user;
 
 const chatbox = document.getElementById('chatBox');
