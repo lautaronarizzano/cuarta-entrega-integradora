@@ -9,7 +9,6 @@ import {
 } from "@faker-js/faker";
 import * as dotenv from "dotenv";
 import winston from "winston";
-import config from '../config/config.js'
 import multer from 'multer'
 
 const __filename = fileURLToPath(

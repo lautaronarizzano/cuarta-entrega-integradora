@@ -1,4 +1,3 @@
-import config from "../config/config.js"
 import { createMailHtml } from "../utils/customHtml.js"
 import {transporter} from './mail.service.js'
 import Users from "../dao/dbManagers/users.js";

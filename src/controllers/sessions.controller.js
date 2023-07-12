@@ -28,10 +28,6 @@ const failRegister = async (req, res) => {
         message: 'Error intentado registrarse',
         code: EErrors.REGISTER_FAILED
     })
-    res.send({
-        status: 'error',
-        message: 'register failed'
-    })
 }
 
 const login = async (req, res) => {

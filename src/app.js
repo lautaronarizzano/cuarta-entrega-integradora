@@ -7,7 +7,6 @@ import __mainDirname, {
     addLogger
 } from './utils/utils.js'
 import errorHandler from './middlewares/errors/errors.js'
-import config from './config/config.js'
 import session from 'express-session'
 import chatRouter from './routes/web/chat.router.js'
 import productsRouter from './routes/api/products.router.js'

@@ -5,6 +5,9 @@ export const incompleteFieldError = () => {
 export const productNotFound = (pid) => {
     return `El producto que usted quiere agregar no se encuentra disponible. El id del producto que usted quiere agregar es: ${pid}`
 }
+export const cartNotFound = (cid) => {
+    return `El carrito que usted quiere agregar no se encuentra disponible. El id del producto que usted quiere agregar es: ${cid}`
+}
 export const incompleteLoginFields = (email, password) => {
     return `Login fallido. El campo de email o de contraseña estan incompletos o email no termina en @gmail.com . email recibido: ${email}, password recibido: ${password} `
 }

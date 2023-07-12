@@ -2,12 +2,8 @@ import {
     Router
 } from 'express'
 import {
-    get
-} from '../../controllers/mockproducts.controller.js'
-import {
     generateProduct
 } from '../../utils/utils.js'
-import { uploader } from '../../middlewares/multer.js'
 
 
 const router = Router()

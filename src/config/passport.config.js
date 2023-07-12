@@ -10,7 +10,6 @@ import UserDto from '../dao/DTOs/current.dto.js'
 import {
     cartsModel
 } from '../dao/models/cartsModel.js'
-import config from './config.js';
 
 const LocalStrategy = local.Strategy
 

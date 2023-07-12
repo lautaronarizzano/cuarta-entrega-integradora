@@ -1,8 +1,7 @@
 import * as cartsService from '../services/carts.service.js'
-import { getProductById } from '../services/products.service.js'
 import CustomError from '../services/errors/CustomError.js'
-import { productNotFound } from '../services/errors/info.js'
 import EErrors from '../services/errors/enums.js'
+import { cartNotFound, productNotFound } from '../services/errors/info.js'
 
 
 const getCarts = async (req, res) => {
@@ -46,11 +45,6 @@ const createCart = async (req, res) => {
     const cart = req.body.cart
     try {
 
-        // if(!cart || cart !== []) {
-        //     req.logger.error('cart must be an []')
-        //     res.status(400).send({ status: 'error', error: 'cart must be an []' })
-        // }
-
         const result = await cartsService.addCart(cart)
         res.send({
             status: 'success',
@@ -77,14 +71,15 @@ const addProductInCart = async (req, res) => {
             res.status(404).send({ status: 'error', error: `cart doesn't exist`})
         }
 
-        // if(!product) {
-        //         throw CustomError.createError({
-        //             name: `Product doesn't exist`,
-        //             cause: productNotFound(pid),
-        //             message: 'Error intentando agregar producto al carrito',
-        //             code: EErrors.PRODUCT_NOT_FOUND
-        //         })
-        //     }
+        if(result == 'productError') {
+            req.logger.error(`product doesn't exist`)
+                throw CustomError.createError({
+                    name: `Product doesn't exist`,
+                    cause: productNotFound(pid),
+                    message: 'Error intentando agregar producto al carrito',
+                    code: EErrors.PRODUCT_NOT_FOUND
+                })
+            }
 
         if(result ==  'productError') {
             req.logger.error(`product doesn't exist`)

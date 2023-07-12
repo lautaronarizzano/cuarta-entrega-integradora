@@ -17,9 +17,19 @@ form.addEventListener('submit', async e => {
         body: JSON.stringify(datos)
     });
 
-    if(respuesta.status === 200) {
+    if (respuesta.status === 200) {
+        await Swal.fire({
+            icon: 'success',
+            title: 'Login was succesfully',
+        })
         location.href = "/products"
-    }  else {
+    } else {
+        console.log('hola')
+        await Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Invalid credentials',
+        })
         location.href = "/login"
     }
 })

@@ -32,7 +32,16 @@ const deleteProduct = async (pid) => {
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then(setTimeout(() => {
+    }).then(
+        Swal.fire({
+            icon: 'success',
+            text: 'Deleting product...',
+            toast: true,
+            position: 'bottom-right',
+            timer: 2000,
+            timerProgressBar: true
+        }),
+        setTimeout(() => {
         window.location.reload()
     }, '1000'))
 }

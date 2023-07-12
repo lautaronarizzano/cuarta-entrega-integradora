@@ -93,7 +93,6 @@ const ticket = async (req, res) => {
     const cid = req.params.cid
     try {
         const ticket = await cartsServcies.purchaseCart(cid)
-        console.log(ticket)
         res.render('ticket', ticket)
     } catch (error) {
         req.logger.fatal(error)

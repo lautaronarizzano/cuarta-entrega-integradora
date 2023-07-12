@@ -2,7 +2,6 @@ import { Products } from "../dao/factory.js"
 import ProductsRepository from "../repository/products.repository.js"
 import { transporter } from "./mail.service.js"
 import { generateDeleteProductMail } from "../utils/customHtml.js"
-import config from "../config/config.js"
 
 const products = new Products()
 const productsRepository = new ProductsRepository(products)
