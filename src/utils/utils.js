@@ -7,7 +7,6 @@ import jwt from "jsonwebtoken";
 import {
   faker
 } from "@faker-js/faker";
-import * as dotenv from "dotenv";
 import winston from "winston";
 import multer from 'multer'
 
@@ -117,7 +116,6 @@ export const generateProduct = () => {
 };
 
 
-dotenv.config();
 const ENVIROMENT = process.env.NODE_ENV;
 
 const customLevelOptions = {
